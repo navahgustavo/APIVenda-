@@ -11,7 +11,7 @@ public class ProdutoRepository {
     @PersistenceContext(unitName = "HibernateMaven")
     private EntityManager em;
 
-    public List<Produto> listarTodos() {
+    public List<Produto> listar() {
         String jpql = "SELECT p FROM Produto p";
         return em.createQuery(jpql, Produto.class).getResultList();
     }
@@ -25,6 +25,22 @@ public class ProdutoRepository {
             em.persist(produto);
         } catch (Exception ex) {
             throw new Exception("O produto não pôde ser cadastrado");
+        }
+    }
+
+    public void editar(Produto produto) throws Exception {
+        try {
+            em.merge(produto);
+        } catch (Exception ex) {
+            throw new Exception("O produto não pôde ser editado");
+        }
+    }
+
+    public void excluir(Produto produto) throws Exception {
+        try {
+            em.remove(produto);
+        } catch (Exception ex) {
+            throw new Exception("O produto não pôde ser excluído");
         }
     }
 

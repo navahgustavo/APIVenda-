@@ -4,27 +4,27 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-public class Venda {
+public class Venda implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column()
-    private List<ItensVenda> listaItens;
-
-    @Column(length = 30)
     private BigDecimal total;
 
-    @Column(length = 200)
     private String observacoes;
 
-    @Column(length = 10)
-    private Integer idCliente;
+    @ManyToOne
+    private Cliente cliente;
+
+    @OneToMany(mappedBy = "venda", orphanRemoval = true)
+    private List<ItensVenda> itens;
+
 }

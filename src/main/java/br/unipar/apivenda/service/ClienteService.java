@@ -14,11 +14,23 @@ public class ClienteService {
     private ClienteRepository clienteRepository;
 
     public List<Cliente> listar() {
-        return clienteRepository.listarTodos();
+        return clienteRepository.listar();
+    }
+
+    public Cliente buscarPorId(Cliente cliente) {
+        return clienteRepository.buscaPorID(cliente.getId());
     }
 
     public void cadastrar(Cliente cliente) throws Exception {
         clienteRepository.cadastrar(cliente);
+    }
+
+    public void editar(Cliente cliente) throws Exception {
+        clienteRepository.editar(cliente);
+    }
+
+    public void excluir(Cliente cliente) throws Exception {
+        clienteRepository.excluir(cliente);
     }
 
 }

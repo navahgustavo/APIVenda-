@@ -1,6 +1,7 @@
 package br.unipar.apivenda.repository;
 
 import br.unipar.apivenda.model.Cliente;
+import br.unipar.apivenda.model.Produto;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -14,8 +15,8 @@ public class ClienteRepository {
     @PersistenceContext(unitName = "HibernateMaven")
     private EntityManager em;
 
-    public List<Cliente> listarTodos() {
-        String jpql = "SELECT c FROM Cliente c";
+    public List<Cliente> listar() {
+        String jpql = "SELECT p FROM Produto p";
         return em.createQuery(jpql, Cliente.class).getResultList();
     }
 
@@ -27,7 +28,23 @@ public class ClienteRepository {
         try {
             em.persist(cliente);
         } catch (Exception ex) {
-            throw new Exception("Cliente não pôde ser cadastrado");
+            throw new Exception("O produto não pôde ser cadastrado");
+        }
+    }
+
+    public void editar(Cliente cliente) throws Exception {
+        try {
+            em.merge(cliente);
+        } catch (Exception ex) {
+            throw new Exception("O produto não pôde ser editado");
+        }
+    }
+
+    public void excluir(Cliente cliente) throws Exception {
+        try {
+            em.remove(cliente);
+        } catch (Exception ex) {
+            throw new Exception("O produto não pôde ser excluído");
         }
     }
 

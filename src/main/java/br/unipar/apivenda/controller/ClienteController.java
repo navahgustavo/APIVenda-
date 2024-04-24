@@ -31,4 +31,16 @@ public class ClienteController {
         }
     }
 
+    @POST
+    @Consumes(value = MediaType.APPLICATION_JSON)
+    @Produces(value = MediaType.APPLICATION_JSON)
+    public Response editarCliente(Cliente cliente) {
+        try {
+            clienteService.cadastrar(cliente);
+            return Response.status(201).entity("Cliente cadastrado com sucesso").build();
+        } catch (Exception ex) {
+            return Response.status(403).entity(ex.getMessage()).build();
+        }
+    }
+
 }
