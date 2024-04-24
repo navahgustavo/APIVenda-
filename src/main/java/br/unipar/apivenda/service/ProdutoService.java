@@ -2,10 +2,12 @@ package br.unipar.apivenda.service;
 
 import br.unipar.apivenda.model.Produto;
 import br.unipar.apivenda.repository.ProdutoRepository;
+import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 
 import java.util.List;
 
+@Stateless
 public class ProdutoService {
 
     @Inject

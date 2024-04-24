@@ -1,11 +1,13 @@
 package br.unipar.apivenda.repository;
 
 import br.unipar.apivenda.model.Produto;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
 import java.util.List;
 
+@Stateless
 public class ProdutoRepository {
 
     @PersistenceContext(unitName = "HibernateMaven")
