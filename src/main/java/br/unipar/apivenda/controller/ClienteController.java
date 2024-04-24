@@ -36,8 +36,20 @@ public class ClienteController {
     @Produces(value = MediaType.APPLICATION_JSON)
     public Response editarCliente(Cliente cliente) {
         try {
-            clienteService.cadastrar(cliente);
-            return Response.status(201).entity("Cliente cadastrado com sucesso").build();
+            clienteService.editar(cliente);
+            return Response.status(201).entity("Cliente editado com sucesso").build();
+        } catch (Exception ex) {
+            return Response.status(403).entity(ex.getMessage()).build();
+        }
+    }
+
+    @POST
+    @Consumes(value = MediaType.APPLICATION_JSON)
+    @Produces(value = MediaType.APPLICATION_JSON)
+    public Response excluirCliente(Cliente cliente) {
+        try {
+            clienteService.excluir(cliente);
+            return Response.status(201).entity("Cliente excluído com sucesso").build();
         } catch (Exception ex) {
             return Response.status(403).entity(ex.getMessage()).build();
         }
