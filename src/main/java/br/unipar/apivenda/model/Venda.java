@@ -16,7 +16,7 @@ public class Venda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 30)
+    @Column()
     private List<ItensVenda> listaItens;
 
     @Column(length = 30)
