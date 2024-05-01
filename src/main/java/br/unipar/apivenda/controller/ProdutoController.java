@@ -1,5 +1,6 @@
 package br.unipar.apivenda.controller;
 
+import br.unipar.apivenda.model.Cliente;
 import br.unipar.apivenda.model.Produto;
 import br.unipar.apivenda.service.ProdutoService;
 import jakarta.inject.Inject;
@@ -19,6 +20,17 @@ public class ProdutoController {
         return Response.ok(produtoService.listar()).build();
     }
 
+    @GET
+    @Produces(value = MediaType.APPLICATION_JSON)
+    @Path("/{id}")
+    public Response listarProdutosPorID(@PathParam("id") Integer id) {
+        Produto produto = produtoService.buscarPorId(id);
+        if (produto == null){
+            return Response.status(404).entity("Produto não encontrado").build();
+        }
+        return Response.ok(produto).build();
+    }
+
     @POST
     @Consumes(value = MediaType.APPLICATION_JSON)
     @Produces(value = MediaType.APPLICATION_JSON)
@@ -31,10 +43,11 @@ public class ProdutoController {
         }
     }
 
-    @POST
+    @PUT
+    @Path("/id")
     @Consumes(value = MediaType.APPLICATION_JSON)
     @Produces(value = MediaType.APPLICATION_JSON)
-    public Response editarCliente(Produto produto) {
+    public Response editarProduto(Produto produto) {
         try {
             produtoService.editar(produto);
             return Response.status(201).entity("Produto editado com sucesso").build();
@@ -43,13 +56,16 @@ public class ProdutoController {
         }
     }
 
-    @POST
-    @Consumes(value = MediaType.APPLICATION_JSON)
-    @Produces(value = MediaType.APPLICATION_JSON)
-    public Response excluirProduto(Produto produto) {
+    @DELETE
+    @Path("/{id}")
+    public Response excluirProduto(@PathParam("id") Integer id) {
         try {
+            Produto produto = produtoService.buscarPorId(id);
+            if (produto == null) {
+                return Response.status(404).entity("Produto não encontrado").build();
+            }
             produtoService.excluir(produto);
-            return Response.status(201).entity("Produto excluído com sucesso").build();
+            return Response.status(200).entity("Produto excluído com sucesso").build();
         } catch (Exception ex) {
             return Response.status(403).entity(ex.getMessage()).build();
         }

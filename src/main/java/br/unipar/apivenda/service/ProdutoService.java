@@ -17,8 +17,8 @@ public class ProdutoService {
         return produtoRepository.listar();
     }
 
-    public Produto buscarPorId(Produto produto) {
-        return produtoRepository.buscaPorID(produto.getId());
+    public Produto buscarPorId(Integer id) {
+        return produtoRepository.buscaPorID(id);
     }
 
     public void cadastrar(Produto produto) throws Exception {

@@ -1,5 +1,6 @@
 package br.unipar.apivenda.controller;
 
+import br.unipar.apivenda.model.Cliente;
 import br.unipar.apivenda.model.Venda;
 import br.unipar.apivenda.service.VendaService;
 import jakarta.inject.Inject;
@@ -19,6 +20,17 @@ public class VendaController {
         return Response.ok(vendaService.listar()).build();
     }
 
+    @GET
+    @Produces(value = MediaType.APPLICATION_JSON)
+    @Path("/{id}")
+    public Response listarVendasPorID(@PathParam("id") Integer id) {
+        Venda venda = vendaService.buscarPorId(id);
+        if (venda == null){
+            return Response.status(404).entity("Venda não encontrada").build();
+        }
+        return Response.ok(venda).build();
+    }
+
     @POST
     @Consumes(value = MediaType.APPLICATION_JSON)
     @Produces(value = MediaType.APPLICATION_JSON)
@@ -31,7 +43,8 @@ public class VendaController {
         }
     }
 
-    @POST
+    @PUT
+    @Path("/id")
     @Consumes(value = MediaType.APPLICATION_JSON)
     @Produces(value = MediaType.APPLICATION_JSON)
     public Response editarVenda(Venda venda) {
@@ -43,13 +56,16 @@ public class VendaController {
         }
     }
 
-    @POST
-    @Consumes(value = MediaType.APPLICATION_JSON)
-    @Produces(value = MediaType.APPLICATION_JSON)
-    public Response excluirVenda(Venda venda) {
+    @DELETE
+    @Path("/{id}")
+    public Response excluirVenda(@PathParam("id") Integer id) {
         try {
+            Venda venda = vendaService.buscarPorId(id);
+            if (venda == null) {
+                return Response.status(404).entity("Venda não encontrada").build();
+            }
             vendaService.excluir(venda);
-            return Response.status(201).entity("Venda excluída com sucesso").build();
+            return Response.status(200).entity("Cliente excluído com sucesso").build();
         } catch (Exception ex) {
             return Response.status(403).entity(ex.getMessage()).build();
         }

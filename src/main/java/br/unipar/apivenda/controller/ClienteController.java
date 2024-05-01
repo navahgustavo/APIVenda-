@@ -19,6 +19,17 @@ public class ClienteController {
         return Response.ok(clienteService.listar()).build();
     }
 
+    @GET
+    @Produces(value = MediaType.APPLICATION_JSON)
+    @Path("/{id}")
+    public Response listarClientesPorID(@PathParam("id") Integer id) {
+        Cliente cliente = clienteService.buscarPorId(id);
+        if (cliente == null){
+            return Response.status(404).entity("Cliente não encontrado").build();
+        }
+        return Response.ok(cliente).build();
+    }
+
     @POST
     @Consumes(value = MediaType.APPLICATION_JSON)
     @Produces(value = MediaType.APPLICATION_JSON)
@@ -31,7 +42,8 @@ public class ClienteController {
         }
     }
 
-    @POST
+    @PUT
+    @Path("/id")
     @Consumes(value = MediaType.APPLICATION_JSON)
     @Produces(value = MediaType.APPLICATION_JSON)
     public Response editarCliente(Cliente cliente) {
@@ -43,16 +55,18 @@ public class ClienteController {
         }
     }
 
-    @POST
-    @Consumes(value = MediaType.APPLICATION_JSON)
-    @Produces(value = MediaType.APPLICATION_JSON)
-    public Response excluirCliente(Cliente cliente) {
+    @DELETE
+    @Path("/{id}")
+    public Response excluirCliente(@PathParam("id") Integer id) {
         try {
+            Cliente cliente = clienteService.buscarPorId(id);
+            if (cliente == null) {
+                return Response.status(404).entity("cliente não encontrado").build();
+            }
             clienteService.excluir(cliente);
-            return Response.status(201).entity("Cliente excluído com sucesso").build();
+            return Response.status(200).entity("Cliente excluído com sucesso").build();
         } catch (Exception ex) {
             return Response.status(403).entity(ex.getMessage()).build();
         }
     }
-
 }

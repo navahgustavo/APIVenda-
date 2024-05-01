@@ -17,8 +17,8 @@ public class ClienteService {
         return clienteRepository.listar();
     }
 
-    public Cliente buscarPorId(Cliente cliente) {
-        return clienteRepository.buscaPorID(cliente.getId());
+    public Cliente buscarPorId(Integer id) {
+        return clienteRepository.buscaPorID(id);
     }
 
     public void cadastrar(Cliente cliente) throws Exception {
